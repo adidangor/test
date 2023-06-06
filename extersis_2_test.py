@@ -5,21 +5,20 @@ from statistics import mean
 import pytest
 import requests
 import json
-from config import url_ex,url_website_1
-
+from config import exercise2_url_API,chromdriver_path,exercise2_url_website
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 @pytest.fixture(scope="function")
 def get_website():
-    driver=webdriver.Chrome('/home/adi2000/chrome driver/chromedriver_linux64/chromedriver',options=options)
+    driver=webdriver.Chrome(chromdriver_path,options=options)
     driver.maximize_window()
     return driver
 
 @pytest.fixture(scope="function")
 def get_weather_by_zipcode_from_weatherAPI():
     try:
-        res = requests.get(url=url_ex)
+        res = requests.get(url=exercise2_url_API)
     except Exception as e:
         return e
     data = json.loads(res.text)
@@ -28,7 +27,7 @@ def get_weather_by_zipcode_from_weatherAPI():
 @pytest.fixture(scope="function")
 def get_weather_by_zipcode_from_weatherweb(get_website):
     driver=get_website
-    driver.get(url_website_1)
+    driver.get(exercise2_url_website)
     time.sleep(10)
     driver.find_element(By.CSS_SELECTOR,"#LocationSearch_input").send_keys("20852")
     time.sleep(4)

@@ -6,12 +6,12 @@ import pytest
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-
+from config import chromdriver_path
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 @pytest.fixture(scope="function")
 def get_driver():
-    driver=webdriver.Chrome('/home/adi2000/chrome driver/chromedriver_linux64/chromedriver',options=options)
+    driver=webdriver.Chrome(chromdriver_path,options=options)
     driver.maximize_window()
     return driver
 
@@ -24,7 +24,7 @@ def test_convert_between_C_2_F(get_driver):
     send_valued_to_convert=WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.NAME,"queryFrom")))
     # send_valued_to_convert=driver.find_element(By.NAME,"queryFrom")
     send_valued_to_convert.send_keys(value_to_convert)
-    time.sleep(10)
+    time.sleep(20)
     click_to_convert=WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"#results > ol > li:nth-child(2) > div > a:nth-child(3)")))
     click_to_convert.click()
     time.sleep(10)
